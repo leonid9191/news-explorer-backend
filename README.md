@@ -1,1 +1,1 @@
-# news-explower-backend
+# news-explorer-backend
