@@ -52,7 +52,7 @@ const articleSchema = new mongoose.Schema(
       required: true,
       select: false,
     },
-  }
+  },
 );
 
 module.exports = mongoose.model('article', articleSchema);

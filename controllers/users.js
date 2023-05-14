@@ -1,26 +1,27 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
 const { NODE_ENV, JWT_SECRET } = process.env;
-const User = require("../models/user");
-const NotFoundError = require("../utils/NotFoundError");
-const BadReqError = require("../utils/BadReqError");
-const ConflictError = require("../utils/ConflictError");
+const User = require('../models/user');
+const NotFoundError = require('../utils/NotFoundError');
+const BadReqError = require('../utils/BadReqError');
+const ConflictError = require('../utils/ConflictError');
 
 const getUser = (req, res, next) => {
-  const id = "64612c0d5016516426460b1c";
-  // const id = req.user._id;
+  // const id = '64612c0d5016516426460b1c';
+  const id = req.user._id;
 
   User.findById(id)
     .then((user) => {
       if (!user) {
-        next(new NotFoundError("User not found"));
+        next(new NotFoundError('User not found'));
       } else {
         res.send({ data: user });
       }
     })
     .catch((err) => {
-      if (err.name === "DocumentNotFoundError") {
-        next(new NotFoundError("User ID not found"));
+      if (err.name === 'DocumentNotFoundError') {
+        next(new NotFoundError('User ID not found'));
       } else {
         next(err);
       }
@@ -32,13 +33,12 @@ const getCurrentUser = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  console.log(req.body);
   const { name, email, password } = req.body;
 
   User.findOne({ email })
     .then((user) => {
       if (user) {
-        throw new ConflictError("Email already in system");
+        throw new ConflictError('Email already in system');
       } else {
         return bcrypt.hash(password, 10);
       }
@@ -50,8 +50,8 @@ const createUser = (req, res, next) => {
       res.status(200).send({ data: userInfo });
     })
     .catch((err) => {
-      if (err.name === "ValidationError") {
-        next(new BadReqError("Incorrect email or password"));
+      if (err.name === 'ValidationError') {
+        next(new BadReqError('Incorrect email or password'));
       } else {
         next(err);
       }
@@ -60,16 +60,15 @@ const createUser = (req, res, next) => {
 
 const userLogin = (req, res, next) => {
   const { email, password } = req.body;
-  console.log(req.body);
   User.findOne({ email })
-    .select("+password")
+    .select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(new Error("Incorrect email or password"));
+        return Promise.reject(new Error('Incorrect email or password'));
       }
       return bcrypt.compare(password, user.password).then((matched) => {
         if (!matched) {
-          return Promise.reject(new Error("Incorrect email or password"));
+          return Promise.reject(new Error('Incorrect email or password'));
         }
         return user;
       });
@@ -77,15 +76,15 @@ const userLogin = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === "production" ? JWT_SECRET : "test",
+        NODE_ENV === 'production' ? JWT_SECRET : 'test',
         {
-          expiresIn: "7d",
-        }
+          expiresIn: '7d',
+        },
       );
       res.send({ data: user.toJSON(), token });
     })
     .catch(() => {
-      next(new BadReqError("Incorrect email or password"));
+      next(new BadReqError('Incorrect email or password'));
     });
 };
 

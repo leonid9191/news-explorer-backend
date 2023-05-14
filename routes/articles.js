@@ -1,14 +1,14 @@
-const router = require("express").Router();
-const { celebrate, Joi } = require("celebrate");
-const { testLink } = require("../utils/testLink");
+const router = require('express').Router();
+const { celebrate, Joi } = require('celebrate');
+const { testLink } = require('../utils/testLink');
 
 const {
-  getSavedArticles,
+  getAllArticles,
   saveArticle,
   deleteArticle,
-} = require("../controllers/articles");
+} = require('../controllers/articles');
 
-router.get('/', getSavedArticles);
+router.get('/', getAllArticles);
 router.post('/', celebrate({
   body: Joi.object().keys({
     keyword: Joi.string().required(),

@@ -8,6 +8,7 @@ const articlesRouter = require('./articles');
 const usersRouter = require('./users');
 
 const { createUser, userLogin } = require('../controllers/users');
+
 const router = express.Router();
 
 router.post('/signup', celebrate({
@@ -19,7 +20,7 @@ router.post('/signup', celebrate({
 }), createUser);
 router.post('/signin', userLogin);
 
-// router.use(auth);
+router.use(auth);
 
 router.use('/users', usersRouter);
 router.use('/articles', articlesRouter);
