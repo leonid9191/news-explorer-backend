@@ -7,7 +7,7 @@ const rateLimit = require('express-rate-limit');
 const routes = require('./routes');
 const { errorLogger, requestLogger } = require('./middleware/logger');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, NODE_ENV, DB_MONGO } = process.env;
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 100000, // 15 minutes
@@ -16,7 +16,9 @@ const limiter = rateLimit({
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 const app = express();
-mongoose.connect('mongodb://localhost:27017/news');
+mongoose.connect(
+  NODE_ENV === 'production' ? DB_MONGO : 'mongodb://localhost:27017/news',
+);
 
 app.use(requestLogger);
 app.use(limiter);

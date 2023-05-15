@@ -45,7 +45,8 @@ const createUser = (req, res, next) => {
     })
     .then((hash) => User.create({ name, email, password: hash }))
     .then((user) => {
-      const userInfo = user.toJSON();
+      const userInfo = user.toObject();
+      // Delete the password field from the object
       delete userInfo.password;
       res.status(200).send({ data: userInfo });
     })
@@ -81,7 +82,10 @@ const userLogin = (req, res, next) => {
           expiresIn: '7d',
         },
       );
-      res.send({ data: user.toJSON(), token });
+      const userInfo = user.toObject();
+      // Delete the password field from the object
+      delete userInfo.password;
+      res.send({ data: userInfo, token });
     })
     .catch(() => {
       next(new BadReqError('Incorrect email or password'));
