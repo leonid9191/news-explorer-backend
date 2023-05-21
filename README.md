@@ -1,4 +1,5 @@
 # news-explower-backend
 
 link : 
-[http://leo-news.mooo.com/](url)
+[https://leo-news.mooo.com/](url)
+[https://api.leo-news.mooo.com/](url)
