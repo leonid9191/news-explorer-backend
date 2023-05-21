@@ -8,8 +8,8 @@ const BadReqError = require('../utils/BadReqError');
 const ConflictError = require('../utils/ConflictError');
 
 const getUser = (req, res, next) => {
-  // const id = '64612c0d5016516426460b1c';
-  const id = req.user._id;
+  const id = '646a5780a7a7281f5c082ed9';
+  // const id = req.user._id;
 
   User.findById(id)
     .then((user) => {

@@ -18,16 +18,8 @@ router.post(
       text: Joi.string().required(),
       date: Joi.string().required(),
       source: Joi.string().required(),
-      link: {
-        validator(v) {
-          return valid.isURL(v);
-        },
-      },
-      image: {
-        validator(v) {
-          return valid.isURL(v);
-        },
-      },
+      link: Joi.string(),
+      image: Joi.string()
     }),
   }),
   saveArticle,
