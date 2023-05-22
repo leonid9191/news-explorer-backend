@@ -20,7 +20,7 @@ router.post('/signup', celebrate({
 }), createUser);
 router.post('/signin', userLogin);
 
-router.use(auth);
+// router.use(auth);
 
 router.use('/users', usersRouter);
 router.use('/articles', articlesRouter);
