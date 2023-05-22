@@ -4,7 +4,7 @@ const Unathorized = require("../utils/Unathorized");
 const NotFoundError = require("../utils/NotFoundError");
 const ForbiddenError = require("../utils/ForbiddenError");
 const currentUserId = "64612b47cb37732fe26b196b";
-
+const BadReqError = require("../utils/BadReqError");
 
 
 const getAllArticles = (req, res, next) => {
@@ -45,8 +45,8 @@ const getAllArticles = (req, res, next) => {
 };
 
 const saveArticle = (req, res, next) => {
-  const owner = currentUserId;
-  // const owner = req.user._id;
+  // const owner = currentUserId;
+  const owner = req.user._id;
 
   const { keyword, title, text, date, link, source, image } = req.body;
 
