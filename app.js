@@ -15,7 +15,7 @@ mongoose.connect(
 );
 
 app.use(requestLogger);
-// app.use(limiter);
+app.use(limiter);
 app.use(cors());
 app.options('*', cors()); // enable requests for all routes
 app.use(helmet());
