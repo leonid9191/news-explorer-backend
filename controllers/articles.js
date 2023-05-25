@@ -3,9 +3,7 @@ const InternalServerError = require("../utils/InternalError");
 const Unathorized = require("../utils/Unathorized");
 const NotFoundError = require("../utils/NotFoundError");
 const ForbiddenError = require("../utils/ForbiddenError");
-const currentUserId = "64612b47cb37732fe26b196b";
 const BadReqError = require("../utils/BadReqError");
-
 
 const getAllArticles = (req, res, next) => {
   const currentUserId = req.user._id;
@@ -45,7 +43,6 @@ const getAllArticles = (req, res, next) => {
 };
 
 const saveArticle = (req, res, next) => {
-  // const owner = currentUserId;
   const owner = req.user._id;
 
   const { keyword, title, text, date, link, source, image } = req.body;
@@ -62,7 +59,6 @@ const saveArticle = (req, res, next) => {
   })
     .then((article) => {
       const articleInfo = article.toObject();
-
       res.status(200).send({ data: articleInfo });
     })
     .catch((err) => {
@@ -77,28 +73,12 @@ const saveArticle = (req, res, next) => {
 // delete  article by id
 const deleteArticle = (req, res, next) => {
   const { articleId } = req.params;
-  const currentUserId = req.user._id;
 
-  NewsCard.findById(articleId)
-    .select("owner")
+  NewsCard.findOneAndDelete(articleId)
     .orFail(new NotFoundError("Data not found"))
-    .then((article) => {
-      if (!articleId) {
-        next(NotFoundError("Data not found"));
-      }
-      if (article.owner.toString() !== currentUserId) {
-        next(new ForbiddenError("Cannot delete another user's card"));
-      }
-      return article;
-    })
-    .then(() => {
-      NewsCard.findOneAndDelete(articleId)
-        .orFail(new NotFoundError("Data not found"))
-        .then(() =>
-          res.status(200).send({ data: articleId, message: "Article deleted" })
-        )
-        .catch(next);
-    })
+    .then(() =>
+      res.status(200).send({ data: articleId, message: "Article deleted" })
+    )
     .catch(() => {
       next(new NotFoundError("Data not found"));
     });

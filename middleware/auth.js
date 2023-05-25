@@ -4,13 +4,12 @@ const Unathorized = require('../utils/Unathorized');
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports = (req, res, next) => {
-  const { auth } = req.headers;
-
-  if (!auth || !auth.startsWith('Bearer ')) {
+  const { authorization } = req.headers;
+  if (!authorization || !authorization.startsWith('Bearer ')) {
     return next(new Unathorized('Auth Required'));
   }
 
-  const token = auth.replace('Bearer ', '');
+  const token = authorization.replace('Bearer ', '');
   let payload;
 
   try {
@@ -21,7 +20,6 @@ module.exports = (req, res, next) => {
   } catch (err) {
     return next(new Unathorized('Auth Required'));
   }
-
   req.user = payload;
 
   return next();

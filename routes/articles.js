@@ -24,6 +24,7 @@ router.post(
       keyword: Joi.string().required(),
       title: Joi.string().required(),
       text: Joi.string().required(),
+      owner: Joi.string().required(),
       date: Joi.string().required(),
       source: Joi.string()
         .required()
