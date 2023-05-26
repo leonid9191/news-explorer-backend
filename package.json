@@ -1,5 +1,5 @@
 {
-  "name": "news-explower-backend",
+  "name": "news-explorer-backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/leonid9191/news-explower-backend.git"
+    "url": "git+https://github.com/leonid9191/news-explorer-backend.git"
   },
   "author": "Leonid",
   "license": "ISC",

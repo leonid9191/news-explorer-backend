@@ -18,6 +18,24 @@ app.use(requestLogger);
 // app.use(limiter);
 app.use(cors());
 app.options('*', cors()); // enable requests for all routes
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://localhost:3000');
+  res.header(
+    'Access-Control-Allow-Origin',
+    'https://api.leo-news.mooo.com',
+  );
+  res.header(
+    'Access-Control-Allow-Origin',
+    'https://leo-news.mooo.com',
+  );
+  res.header('Access-Control-Request-Methods', 'GET,HEAD,PATCH,POST,DELETE');
+  res.header(
+    'Access-Content-Control-Request-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept',
+  );
+  next();
+});
+
 app.use(helmet());
 
 app.use(express.json());
