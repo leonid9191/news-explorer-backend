@@ -16,6 +16,14 @@ mongoose.connect(
 
 app.use(requestLogger);
 // app.use(limiter);
+
+const allowedOrigins = [
+  "https://leo-news.mooo.com",
+  "http://leo-news.mooo.com",
+  "http://localhost:3000", // Use the port your frontend is served on
+];
+app.use(cors({ origin: allowedOrigins }));
+
 app.use(cors({origin: '*'}));
 // app.options('*', cors()); // enable requests for all routes
 
