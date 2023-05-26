@@ -25,7 +25,7 @@ const allowedOrigins = [
 app.use(cors({ origin: allowedOrigins }));
 
 // app.use(cors({origin: '*'}));
-// app.options('*', cors()); // enable requests for all routes
+app.options('*', cors()); // enable requests for all routes
 
 
 app.use(helmet());
